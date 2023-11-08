@@ -2,6 +2,8 @@ import torch
 from transformers import GPT2Tokenizer, GPT2LMHeadModel, TextDataset, DataCollatorForLanguageModeling, Trainer, TrainingArguments
 
 # Define your two custom datasets (train_dataset1 and train_dataset2)
+af_dataset = load_dataset("brando/debug0_af", "debug0_af", streaming=True, split="train", token=token).with_format(type="torch")
+c4_dataset = load_dataset("c4", "en", streaming=True, split="train", token=token).with_format(type="torch")
 
 # Initialize the tokenizer and pre-trained GPT-2 model
 model_name = "gpt2"  # You can choose a different GPT-2 variant if needed
