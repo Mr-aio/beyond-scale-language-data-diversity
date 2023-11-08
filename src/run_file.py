@@ -520,6 +520,85 @@ def sanity2_c4_is_aligned_to_c4():
     print(f'{results=}')
 
 
+
+def cross_test():
+    """ Sanity check that data from the same place has low. Prev work showed 0.05 is lower bound.
+    so hopefully around that number. """
+    batch_size = 8
+    batch_size = 512
+    remove_columns = []
+    token = None
+
+    # -- Get probe network
+    from datasets import load_dataset
+    import torch
+    from transformers import GPT2Tokenizer, GPT2LMHeadModel
+
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    if tokenizer.pad_token_id is None:
+      tokenizer.pad_token = tokenizer.eos_token
+    probe_network = GPT2LMHeadModel.from_pretrained("gpt2")
+    device = torch.device(f"cuda:{0}" if torch.cuda.is_available() else "cpu")
+    probe_network = probe_network.to(device)
+
+    # -- Get batch from dataset
+    from datasets import load_dataset
+
+    # Load the "AF" and "C4" datasets
+    af_dataset = load_dataset("brando/debug0_af", "debug0_af", streaming=True, split="train", token=token).with_format(type="torch")
+    c4_dataset = load_dataset("c4", "en", streaming=True, split="train", token=token).with_format(type="torch")
+
+    batch_af = af_dataset.take(batch_size)
+    def preprocess_formalize_af(examples):
+        """ link,formal statement,generated informal statement,solvable by sledgehammer,keep or not,informalization correct """
+        print("EXAMPLES", examples.keys())
+        informal_statement = examples["generated informal statement"]
+        formal_statement = examples["formal statement"]
+        text = f'informal statement {informal_statement} formal statement {formal_statement}'
+        return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
+    column_names_af = next(iter(batch_af)).keys()
+    print(f'{column_names_af=}')
+
+    # - Prepare functions to tokenize batch
+    preprocess_af = preprocess_formalize_af
+    remove_columns_af = column_names_af  # remove everything except the tokenized fields in the dict
+    print(f'{remove_columns_af=}')
+    def map_af(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
+        return batch.map(preprocess_af, batched=True, remove_columns=remove_columns)
+    tokenized_batch_af = map_af(batch_af)
+
+    print(f'{c4_dataset.column_names=}')
+    batch_c4 = c4_dataset.take(batch_size)
+    def preprocess_formalize_c4(examples):
+        """ link,formal statement,generated informal statement,solvable by sledgehammer,keep or not,informalization correct """
+        print("EXAMPLES", examples.keys())
+        text = examples["text"]
+        return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
+    column_names_c4 = next(iter(batch_c4)).keys()
+    print(f'{column_names_c4=}')
+
+    # - Prepare functions to tokenize batch
+    preprocess_c4 = preprocess_formalize_c4
+    remove_columns_c4 = column_names_c4  # remove everything except the tokenized fields in the dict
+    print(f'{remove_columns_c4=}')
+    def map_c4(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
+        return batch.map(preprocess_c4, batched=True, remove_columns=remove_columns)
+    tokenized_batch_c4 = map_c4(batch_c4)
+ 
+
+    # -- Compute alignment
+    print('-- Compute alignment...')
+    print(f'{batch_size=}')
+    results = alignment_task2vec(af_dataset, c4_dataset, tokenized_batch_af, tokenized_batch_c4, probe_network, verbose=True, debug=False, batch_size=batch_size)
+    print(f'{results=}')
+
+    # -- Compute alignment
+
+    return
+
+
+
+
 if __name__ == '__main__':
     # print(f'\n\n\n------------------- Running {'__file__'} -------------------')
     # -- Run tests and time it
@@ -533,9 +612,9 @@ if __name__ == '__main__':
     # algin_test_cross_div()
 
     # sanity2_af_is_aligned_to_af()
-
-    sanity2_c4_is_aligned_to_c4()
-    # algin_test_cross_div()
+    # sanity2_c4_is_aligned_to_c4()
+    algin_test_cross_div()
+    # cross_test()
 
     # -- End tests, report how long it took
     print(f'Time it took: {time.time() - time_start} seconds \a\n')
