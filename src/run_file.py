@@ -608,12 +608,12 @@ if __name__ == '__main__':
     # test_get_batch_from_dataset()
     # get_tokenized_dataset_to_work_with_pytorch_dataloader_by_removing_columns_without_tenosr()
     # demo_how_to_use_collate_fn_with_pytorch_dataloader()
-    # demo_finetuning_gpt2_with_collate_passed_to_trainer_on_af_dataset()
+    demo_finetuning_gpt2_with_collate_passed_to_trainer_on_af_dataset()
     # algin_test_cross_div()
 
     # sanity2_af_is_aligned_to_af()
     # sanity2_c4_is_aligned_to_c4()
-    algin_test_cross_div()
+    # algin_test_cross_div()
     # cross_test()
 
     # -- End tests, report how long it took

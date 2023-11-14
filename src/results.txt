@@ -1,0 +1,5 @@
+Perplexity Loss on AF Fine Tuned GPT-2:
+Perplexity: 67.8872
+
+Perplexity loss on standard GPT:
+Perplexity: 78.7413
