@@ -74,7 +74,7 @@ class ModelArguments:
     """
 
     model_name_or_path: Optional[str] = field(
-        default=None,
+        default='gpt2',
         metadata={
             "help": (
                 "The model checkpoint for weights initialization. Don't set if you want to train a model from scratch."
@@ -177,11 +177,10 @@ class DataTrainingArguments:
         default=None, metadata={"help": "The configuration name of the dataset to use (via the datasets library)."}
     )
     train_file: Optional[str] = field(
-        default=None, 
-        metadata={"help": "The input training data file (a text file)."}
-    )
+        default='af-train.csv', 
+        metadata={"help": "The input training data file (a text file)."})
     validation_file: Optional[str] = field(
-        default=None,
+        default='af-test.csv',
         metadata={"help": "An optional input evaluation data file to evaluate the perplexity on (a text file)."},
     )
     max_train_samples: Optional[int] = field(

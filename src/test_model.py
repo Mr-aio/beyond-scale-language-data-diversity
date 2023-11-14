@@ -6,7 +6,7 @@ from torch.nn.utils.rnn import pad_sequence
 import pandas as pd
 
 # Load the fine-tuned model and tokenizer
-model_path = "gpt2"
+model_path = "./c4_fine_tuned_gpt2"
 tokenizer = GPT2Tokenizer.from_pretrained(model_path)
 model = GPT2LMHeadModel.from_pretrained(model_path)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

@@ -1,5 +1,8 @@
 # For fine tuning gpt2 on AF custom dataset:
-python3 fine_tune.py --model_name_or_path gpt2 --train_file ./af-train.csv --do_train --output_dir ./af_fine_tuned_gpt2
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./af-train.csv --validation_file ./af-test.csv --do_train --output_dir ./af_fine_tuned_gpt2
 
-# For fine tuning gpt2 on AF custom dataset:
+# For fine tuning gpt2 on Huggingface c4 dataset:
 python3 fine_tune.py --model_name_or_path gpt2 --dataset_name c4 --dataset_config_name en --do_train --output_dir ./c4_fine_tuned_gpt2
+
+# For fine tuning gpt2 on subset of C4 dataset
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./c4-train.csv --validation_file ./c4-test.csv --do_train --output_dir ./c4_fine_tuned_gpt2
