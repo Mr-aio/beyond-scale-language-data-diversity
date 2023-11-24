@@ -1,3 +1,4 @@
+Here's a little test to see if you pulled correctly ;)
 # Beyond Scale: the Diversity Coefficient as a Data Quality Metric for Natural Language Datasets
 
 This repository provides the official implementation of the Task2Vec Diversity Coefficient for computing natural language data diversity from the following paper:
