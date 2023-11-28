@@ -334,8 +334,8 @@ def algin_test_cross_div():
     dataset_target = load_dataset(path, name, streaming=True, split="train").with_format("torch")
     raw_text_batch = dataset_target.take(batch_size)
     print(f'{next(iter(raw_text_batch))=}')
-    path, name = "wikitext", 'wikitext-103-v1'
-    # path, name = 'brando/debug0_af', 'debug0_af'
+    # path, name = "wikitext", 'wikitext-103-v1'
+    path, name = 'brando/debug0_af', 'debug0_af'
 
     dataset_source = load_dataset(path, name, streaming=True, split="train").with_format("torch")
     raw_text_batch = dataset_source.take(batch_size)
@@ -347,11 +347,19 @@ def algin_test_cross_div():
     remove_columns = column_names  # remove all text columns so tensors in default collate_fn don't crash
     def preprocess(examples):
         if 'generated informal statement' in examples:
+            print("GOTCHA1")
             informal_statement = examples["generated informal statement"]
             formal_statement = examples["formal statement"]
             text = f'informal statement {informal_statement} formal statement {formal_statement}'
             return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
-        return tokenizer(examples["text"], padding="max_length", max_length=128, truncation=True, return_tensors="pt")
+        elif 'text' in examples:
+            print("GOTCHA2")
+            # Handle the case where the key is 'text'
+            return tokenizer(examples["text"], padding="max_length", max_length=128, truncation=True, return_tensors="pt")
+        elif 'link' in examples:
+            # Handle the case where the key is 'link'
+            # You might need to adjust this part based on your specific requirements
+            return tokenizer(examples["link"], padding="max_length", max_length=128, truncation=True, return_tensors="pt")
     def map(batch):
         return batch.map(preprocess, batched=True, remove_columns=remove_columns)
     tokenized_batch = map(raw_text_batch)
@@ -364,13 +372,14 @@ def algin_test_cross_div():
     print(f'{isinstance(dataset, Dataset)=}')
     for i, d in enumerate(dataset):
         assert isinstance(d, dict)
-        # dd = dataset[i]
-        # assert isinstance(dd, dict)
     loader_opts = {}
     classifier_opts = {}
     data_loader = DataLoader(dataset, shuffle=False, batch_size=loader_opts.get('batch_size', 1),
                             num_workers=loader_opts.get('num_workers', 0), drop_last=False)
     print(f'{next(iter(data_loader))=}')
+
+    print("YAAAAAAA")
+    return
 
     # -- Compute diversity coefficient
     results: dict = alginment_with_diversity_coefficient(dataset_target, dataset_target, map, map, probe_network, num_batches=2, verbose=True, debug=True, shuffle=False)  # only for debugging
@@ -524,7 +533,6 @@ def sanity2_c4_is_aligned_to_c4():
 def cross_test():
     """ Sanity check that data from the same place has low. Prev work showed 0.05 is lower bound.
     so hopefully around that number. """
-    batch_size = 8
     batch_size = 512
     remove_columns = []
     token = None
@@ -543,58 +551,54 @@ def cross_test():
 
     # -- Get batch from dataset
     from datasets import load_dataset
+    # https://huggingface.co/datasets/brando/debug0_af/tree/main
 
-    # Load the "AF" and "C4" datasets
-    af_dataset = load_dataset("brando/debug0_af", "debug0_af", streaming=True, split="train", token=token).with_format(type="torch")
-    c4_dataset = load_dataset("c4", "en", streaming=True, split="train", token=token).with_format(type="torch")
-
-    batch_af = af_dataset.take(batch_size)
-    def preprocess_formalize_af(examples):
+    path1, name1 = 'brando/debug0_af', 'debug0_af'
+    dataset1 = load_dataset(path1, name1, streaming=True, split="train", token=token).with_format(type="torch")
+    batch1 = dataset1.take(batch_size)
+    def preprocess_formalize1(examples):
         """ link,formal statement,generated informal statement,solvable by sledgehammer,keep or not,informalization correct """
         print("EXAMPLES", examples.keys())
         informal_statement = examples["generated informal statement"]
         formal_statement = examples["formal statement"]
         text = f'informal statement {informal_statement} formal statement {formal_statement}'
+        # text = examples["text"]
         return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
-    column_names_af = next(iter(batch_af)).keys()
-    print(f'{column_names_af=}')
-
+    column_names1 = next(iter(batch1)).keys()
+    print(f'{column_names1=}')
     # - Prepare functions to tokenize batch
-    preprocess_af = preprocess_formalize_af
-    remove_columns_af = column_names_af  # remove everything except the tokenized fields in the dict
-    print(f'{remove_columns_af=}')
-    def map_af(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
-        return batch.map(preprocess_af, batched=True, remove_columns=remove_columns)
-    tokenized_batch_af = map_af(batch_af)
+    preprocess1 = preprocess_formalize1
+    remove_columns1 = column_names1  # remove everything except the tokenized fields in the dict
+    print(f'{remove_columns1=}')
+    def map1(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
+        return batch1.map(preprocess1, batched=True, remove_columns=remove_columns1)
+    
 
-    print(f'{c4_dataset.column_names=}')
-    batch_c4 = c4_dataset.take(batch_size)
-    def preprocess_formalize_c4(examples):
+    path2, name2 = 'c4', 'en'
+    # path2, name2 = "wikitext", 'wikitext-103-v1'
+    # path2, name2 = 'brando/debug0_af', 'debug0_af'
+
+    dataset2 = load_dataset(path2, name2, streaming=True, split="train", token=token).with_format(type="torch")
+    batch2 = dataset2.take(batch_size)
+    def preprocess_formalize2(examples):
         """ link,formal statement,generated informal statement,solvable by sledgehammer,keep or not,informalization correct """
         print("EXAMPLES", examples.keys())
         text = examples["text"]
         return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
-    column_names_c4 = next(iter(batch_c4)).keys()
-    print(f'{column_names_c4=}')
-
+    column_names2 = next(iter(batch2)).keys()
+    print(f'{column_names2=}')
     # - Prepare functions to tokenize batch
-    preprocess_c4 = preprocess_formalize_c4
-    remove_columns_c4 = column_names_c4  # remove everything except the tokenized fields in the dict
-    print(f'{remove_columns_c4=}')
-    def map_c4(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
-        return batch.map(preprocess_c4, batched=True, remove_columns=remove_columns)
-    tokenized_batch_c4 = map_c4(batch_c4)
- 
+    preprocess2 = preprocess_formalize2
+    remove_columns2 = column_names2  # remove everything except the tokenized fields in the dict
+    print(f'{remove_columns2=}')
+    def map2(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
+        return batch2.map(preprocess2, batched=True, remove_columns=remove_columns2)
 
     # -- Compute alignment
     print('-- Compute alignment...')
     print(f'{batch_size=}')
-    results = alignment_task2vec(af_dataset, c4_dataset, tokenized_batch_af, tokenized_batch_c4, probe_network, verbose=True, debug=False, batch_size=batch_size)
+    results = alignment_task2vec(dataset1, dataset2, map1, map2, probe_network, verbose=True, debug=False, batch_size=batch_size)
     print(f'{results=}')
-
-    # -- Compute alignment
-
-    return
 
 
 
@@ -608,12 +612,12 @@ if __name__ == '__main__':
     # test_get_batch_from_dataset()
     # get_tokenized_dataset_to_work_with_pytorch_dataloader_by_removing_columns_without_tenosr()
     # demo_how_to_use_collate_fn_with_pytorch_dataloader()
-    demo_finetuning_gpt2_with_collate_passed_to_trainer_on_af_dataset()
+    # demo_finetuning_gpt2_with_collate_passed_to_trainer_on_af_dataset()
     # algin_test_cross_div()
 
     # sanity2_af_is_aligned_to_af()
     # sanity2_c4_is_aligned_to_c4()
-    # algin_test_cross_div()
+    algin_test_cross_div()
     # cross_test()
 
     # -- End tests, report how long it took

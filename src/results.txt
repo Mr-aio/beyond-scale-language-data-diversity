@@ -1,8 +1,35 @@
-Perplexity Loss on AF Fine Tuned GPT-2:
-Perplexity: 67.8872
+Alignment Scores:
+------------------------
+AF-AF : 0.9452813267707825
+AF-C4 : 0.3249419331550598
+AF-Wikitext : 0.26609545946121216
 
+
+Perplexity Loss Scores Random block_size:
+------------------------
 Perplexity loss on standard GPT-2:
 Perplexity: 78.7413
 
+Perplexity Loss on AF Fine Tuned GPT-2:
+Perplexity: 67.8872
+
 Perplexity loss on C4 Fine Tuned GPT-2:
 Perplexity: 83.0965
+
+Perplexity loss on Wikitest Fine Tuned GPT-2:
+Perplexity: 88.0815
+
+
+Perplexity Loss Scores 128 block_size:
+--------------------------------------
+Perplexity loss on standard GPT-2:
+Perplexity: 78.7413
+
+Perplexity Loss on AF Fine Tuned GPT-2:
+Perplexity: 53.7818
+
+Perplexity loss on C4 Fine Tuned GPT-2:
+Perplexity: 85.8258
+
+Perplexity loss on Wikitest Fine Tuned GPT-2:
+Perplexity: 94.1667
