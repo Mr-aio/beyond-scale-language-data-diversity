@@ -19,4 +19,4 @@ for sample in dataset1:
 df = pd.DataFrame(data)
 
 # Save the DataFrame to a CSV file
-df.to_csv('af-test.csv', index=False)
+df.to_csv('../datasets/af/af-test.csv', index=False)
