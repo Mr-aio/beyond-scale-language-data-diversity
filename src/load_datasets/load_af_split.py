@@ -11,16 +11,18 @@ i = 0
 for sample in dataset1:
     # Extract data from the sample and append it to the data list
     # Modify this part based on the structure of your dataset
-    text = f'informal statement {sample["generated informal statement"]} formal statement {sample["formal statement"]}'
-    data.append({
-        'text' : text
-    })
+    text1 = sample["generated informal statement"]
+    text2 = sample["formal statement"]
+    for txt in [text1, text2]:
+        data.append({
+            'text' : txt
+        })
     i += 1
-    if i == 31:
+    if i == 30:
         break
 
 # Convert the list of dictionaries to a Pandas DataFrame
 df = pd.DataFrame(data)
 
 # Save the DataFrame to a CSV file
-df.to_csv('../datasets/af/af-test-1.csv', index=False)
+df.to_csv('../datasets/af/af-split-test-4k.csv', index=False)

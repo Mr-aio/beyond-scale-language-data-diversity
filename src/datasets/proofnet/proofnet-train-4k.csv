@@ -1,0 +1,66 @@
+text
+"informal statement If $r$ is rational $(r \neq 0)$ and $x$ is irrational, prove that $r+x$ is irrational. formal statement theorem exercise_1_1a
+  (x : ℝ) (y : ℚ) :
+  ( irrational x ) -> irrational ( x + y ) :="
+"informal statement Prove that there is no rational number whose square is $12$. formal statement theorem exercise_1_2 : ¬ ∃ (x : ℚ), ( x ^ 2 = 12 ) :="
+"informal statement Let $A$ be a nonempty set of real numbers which is bounded below. Let $-A$ be the set of all numbers $-x$, where $x \in A$. Prove that $\inf A=-\sup (-A)$. formal statement theorem exercise_1_5 (A minus_A : set ℝ) (hA : A.nonempty) 
+  (hA_bdd_below : bdd_below A) (hminus_A : minus_A = {x | -x ∈ A}) :
+  Inf A = Sup minus_A :="
+"informal statement If $z$ is a complex number, prove that there exists an $r\geq 0$ and a complex number $w$ with $| w | = 1$ such that $z = rw$. formal statement theorem exercise_1_11a (z : ℂ) : 
+  ∃ (r : ℝ) (w : ℂ), abs w = 1 ∧ z = r * w :="
+"informal statement If $x, y$ are complex, prove that $||x|-|y|| \leq |x-y|$. formal statement theorem exercise_1_13 (x y : ℂ) : 
+  |(abs x) - (abs y)| ≤ abs (x - y) :="
+"informal statement Suppose $k \geq 3, x, y \in \mathbb{R}^k, |x - y| = d > 0$, and $r > 0$. Prove that if $2r > d$, there are infinitely many $z \in \mathbb{R}^k$ such that $|z-x|=|z-y|=r$. formal statement theorem exercise_1_16a
+  (n : ℕ)
+  (d r : ℝ)
+  (x y z : euclidean_space ℝ (fin n)) -- R^n
+  (h₁ : n ≥ 3)
+  (h₂ : ‖x - y‖ = d)
+  (h₃ : d > 0)
+  (h₄ : r > 0)
+  (h₅ : 2 * r > d)
+  : set.infinite {z : euclidean_space ℝ (fin n) | ‖z - x‖ = r ∧ ‖z - y‖ = r} :="
+"informal statement If $k \geq 2$ and $\mathbf{x} \in R^{k}$, prove that there exists $\mathbf{y} \in R^{k}$ such that $\mathbf{y} \neq 0$ but $\mathbf{x} \cdot \mathbf{y}=0$ formal statement theorem exercise_1_18a
+  (n : ℕ)
+  (h : n > 1)
+  (x : euclidean_space ℝ (fin n)) -- R^n
+  : ∃ (y : euclidean_space ℝ (fin n)), y ≠ 0 ∧ (inner x y) = (0 : ℝ) :="
+"informal statement Suppose $a, b \in R^k$. Find $c \in R^k$ and $r > 0$ such that $|x-a|=2|x-b|$ if and only if $| x - c | = r$. Prove that $3c = 4b - a$ and $3r = 2 |b - a|$. formal statement theorem exercise_1_19
+  (n : ℕ)
+  (a b c x : euclidean_space ℝ (fin n))
+  (r : ℝ)
+  (h₁ : r > 0)
+  (h₂ : 3 • c = 4 • b - a)
+  (h₃ : 3 * r = 2 * ‖x - b‖)
+  : ‖x - a‖ = 2 * ‖x - b‖ ↔ ‖x - c‖ = r :="
+"informal statement Let $X$ be a metric space in which every infinite subset has a limit point. Prove that $X$ is separable. formal statement theorem exercise_2_24 {X : Type*} [metric_space X]
+  (hX : ∀ (A : set X), infinite A → ∃ (x : X), x ∈ closure A) :
+  separable_space X :="
+"informal statement Suppose $E\subset\mathbb{R}^k$ is uncountable, and let $P$ be the set of condensation points of $E$. Prove that $P$ is perfect. formal statement theorem exercise_2_27a (k : ℕ) (E P : set (euclidean_space ℝ (fin k)))
+  (hE : E.nonempty ∧ ¬ set.countable E)
+  (hP : P = {x | ∀ U ∈ 𝓝 x, ¬ set.countable (P ∩ E)}) :
+  is_closed P ∧ P = {x | cluster_pt x (𝓟 P)}  :="
+"informal statement Prove that every closed set in a separable metric space is the union of a (possibly empty) perfect set and a set which is at most countable. formal statement theorem exercise_2_28 (X : Type*) [metric_space X] [separable_space X]
+  (A : set X) (hA : is_closed A) :
+  ∃ P₁ P₂ : set X, A = P₁ ∪ P₂ ∧
+  is_closed P₁ ∧ P₁ = {x | cluster_pt x (𝓟 P₁)} ∧
+  set.countable P₂ :="
+"informal statement Prove that convergence of $\left\{s_{n}\right\}$ implies convergence of $\left\{\left|s_{n}\right|\right\}$. formal statement theorem exercise_3_1a
+  (f : ℕ → ℝ)
+  (h : ∃ (a : ℝ), tendsto (λ (n : ℕ), f n) at_top (𝓝 a))
+  : ∃ (a : ℝ), tendsto (λ (n : ℕ), |f n|) at_top (𝓝 a) :="
+"informal statement If $s_{1}=\sqrt{2}$, and $s_{n+1}=\sqrt{2+\sqrt{s_{n}}} \quad(n=1,2,3, \ldots),$ prove that $\left\{s_{n}\right\}$ converges, and that $s_{n}<2$ for $n=1,2,3, \ldots$. formal statement theorem exercise_3_3
+  : ∃ (x : ℝ), tendsto f at_top (𝓝 x) ∧ ∀ n, f n < 2 :="
+"informal statement Prove that $\lim_{n \rightarrow \infty} \sum_{i<n} a_i = \infty$, where $a_i = \sqrt{i + 1} -\sqrt{i}$. formal statement theorem exercise_3_6a
+: tendsto (λ (n : ℕ), (∑ i in finset.range n, g i)) at_top at_top :="
+"informal statement If $\Sigma a_{n}$ converges, and if $\left\{b_{n}\right\}$ is monotonic and bounded, prove that $\Sigma a_{n} b_{n}$ converges. formal statement theorem exercise_3_8
+  (a b : ℕ → ℝ)
+  (h1 : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), a i)) at_top (𝓝 y)))
+  (h2 : monotone b)
+  (h3 : metric.bounded (set.range b)) :
+  ∃ y, tendsto (λ n, (∑ i in (finset.range n), (a i) * (b i))) at_top (𝓝 y) :="
+"informal statement Suppose $\left\{p_{n}\right\}$ is a Cauchy sequence in a metric space $X$, and some sequence $\left\{p_{n l}\right\}$ converges to a point $p \in X$. Prove that the full sequence $\left\{p_{n}\right\}$ converges to $p$. formal statement theorem exercise_3_20 {X : Type*} [metric_space X]
+  (p : ℕ → X) (l : ℕ) (r : X)
+  (hp : cauchy_seq p)
+  (hpl : tendsto (λ n, p (l * n)) at_top (𝓝 r)) :
+  tendsto p at_top (𝓝 r) :="

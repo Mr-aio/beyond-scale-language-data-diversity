@@ -8,7 +8,7 @@ dataset_name = "wikitext"
 dataset = load_dataset(dataset_name, 'wikitext-2-raw-v1')
 
 # Select only 200 lines for training
-train_subset = dataset['train'].select([i for i in range(50)])
+train_subset = dataset['train'].select([i for i in range(20)])
 
 # Convert the subset to a Pandas DataFrame
 train_df = pd.DataFrame(train_subset)
@@ -22,7 +22,7 @@ train_df.to_csv(train_csv_path, index=False)
 print(f"Training set saved to {train_csv_path}")
 
 # Select only 50 lines for testing
-test_subset = dataset['train'].select([i for i in range(50, 80)])
+test_subset = dataset['train'].select([i for i in range(20, 40)])
 
 # Convert the subset to a Pandas DataFrame
 test_df = pd.DataFrame(test_subset)
@@ -56,5 +56,5 @@ def remove_quotes(input_file, output_file):
                 writer.writerow(cleaned_row)
 
 # Example usage
-remove_quotes('wiki-train-pre.csv', 'wiki-train.csv')
-remove_quotes('wiki-test-pre.csv', 'wiki-test.csv')
+remove_quotes('wiki-train-pre.csv', '../datasets/wikitext/wiki-train-4k.csv')
+remove_quotes('wiki-test-pre.csv', '../datasets/wikitext/wiki-test-4k.csv')

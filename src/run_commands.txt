@@ -1,3 +1,43 @@
+# For fine tuning gpt2 on 4k AF  dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/af/af-train-4k.csv --validation_file ./datasets/af/af-test-4k.csv --do_train --output_dir ./tuned_models/af_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset of C4 dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/c4/c4-train-4k.csv --validation_file ./datasets/c4/c4-test-4k.csv --do_train --output_dir ./tuned_models/c4_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset no. 1 of C4 dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/c4/c4-1-train-4k.csv --validation_file ./datasets/c4/c4-1-test-4k.csv --do_train --output_dir ./tuned_models/c4_1_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset no. 2 of C4 dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/c4/c4-2-train-4k.csv --validation_file ./datasets/c4/c4-2-test-4k.csv --do_train --output_dir ./tuned_models/c4_2_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset no. 3 of C4 dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/c4/c4-3-train-4k.csv --validation_file ./datasets/c4/c4-3-test-4k.csv --do_train --output_dir ./tuned_models/c4_3_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset of wikitest dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/wikitext/wiki-train-4k.csv --validation_file ./datasets/wikitext/wiki-test-4k.csv --do_train --output_dir ./tuned_models/wiki_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset of proofnet dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/proofnet/proofnet-train-4k.csv --validation_file ./datasets/proofnet/proofnet-test-4k.csv --do_train --output_dir ./tuned_models/proofnet_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset of leandojo4 dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/leandojo4/leandojo4-train-4k.csv --validation_file ./datasets/leandojo4/leandojo4-test-4k.csv --do_train --output_dir ./tuned_models/leandojo4_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k subset of proofpile dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/proofpile/proofpile-train-4k.csv --validation_file ./datasets/proofpile/proofpile-test-4k.csv --do_train --output_dir ./tuned_models/proofpile_fine_tuned_gpt2_4k --block_size 128
+
+# For fine tuning gpt2 on 4k AF Split dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/af/af-split-train-4k.csv --validation_file ./datasets/af/af-split-test-4k.csv --do_train --output_dir ./tuned_models/af_split_fine_tuned_gpt2_4k --block_size 128
+
+
+
+
+
+
+
+
+
+
+---------------------OLD COMMANDS: IGNORE--------------------
 # For fine tuning gpt2 on AF custom dataset, block size 128
 python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/af/af-train.csv --validation_file ./datasets/af/af-test.csv --do_train --output_dir ./tuned_models/af_fine_tuned_gpt2_128 --block_size 128
 
@@ -6,3 +46,12 @@ python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/c4/c4-tra
 
 # For fine tuning gpt2 on subset of wikitest dataset
 python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/wikitext/wiki-train-2.csv --validation_file ./datasets/wikitext/wiki-test-2.csv --do_train --output_dir ./tuned_models/wiki_fine_tuned_gpt2_128 --block_size 128
+
+# For fine tuning gpt2 on long subset of C4 dataset (5k tokens)
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/c4/c4-train-long.csv --validation_file ./datasets/c4/c4-test-long.csv --do_train --output_dir ./tuned_models/c4_long_fine_tuned_gpt2_128 --block_size 128
+
+# For fine tuning gpt2 on long subset of wikitest dataset (5k tokens)
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/wikitext/wiki-train-long.csv --validation_file ./datasets/wikitext/wiki-test-long.csv --do_train --output_dir ./tuned_models/wiki_long_fine_tuned_gpt2_128 --block_size 128
+
+
+

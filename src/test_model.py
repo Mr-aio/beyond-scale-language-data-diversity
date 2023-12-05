@@ -7,9 +7,14 @@ import pandas as pd
 
 # Load the fine-tuned model and tokenizer
 
-model_path = "./tuned_models/wiki_fine_tuned_gpt2_128"
-# model_path = "./tuned_models/af_fine_tuned_gpt2_128"
-# model_path = "./tuned_models/c4_fine_tuned_gpt2_128"
+# model_path = "./tuned_models/af_fine_tuned_gpt2_4k"
+# model_path = "./tuned_models/c4_fine_tuned_gpt2_4k"
+# model_path = "./tuned_models/wiki_fine_tuned_gpt2_4k"
+# model_path = "./tuned_models/proofnet_fine_tuned_gpt2_4k"
+# model_path = "./tuned_models/leandojo4_fine_tuned_gpt2_4k"
+# model_path = "./tuned_models/af_split_fine_tuned_gpt2_4k"
+model_path = "./tuned_models/c4_3_fine_tuned_gpt2_4k"
+
 
 tokenizer = GPT2Tokenizer.from_pretrained(model_path)
 model = GPT2LMHeadModel.from_pretrained(model_path)
@@ -35,7 +40,7 @@ class CustomDataset(Dataset):
         return torch.tensor(self.data[idx])
 
 # Load your custom test dataset
-test_dataset = CustomDataset("./af-test.csv", tokenizer)
+test_dataset = CustomDataset("datasets/af/af-test-4k.csv", tokenizer)
 
 # Define a DataLoader to handle batching and padding
 batch_size = 4  # Adjust as needed
