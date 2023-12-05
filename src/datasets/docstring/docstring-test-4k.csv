@@ -1,0 +1,120 @@
+text
+"code for Sorts the repeated fields of an Experiment message. is def _canonicalize_experiment(exp):
+    'Sorts the repeated fields of an Experiment message.'
+    exp.hparam_infos.sort(key=operator.attrgetter('name'))
+    exp.metric_infos.sort(key=operator.attrgetter('name.group', 'name.tag'))
+    for hparam_info in exp.hparam_infos:
+        if hparam_info.HasField('domain_discrete'):
+            hparam_info.domain_discrete.values.sort(key=operator.attrgetter('string_value'))"
+"code for ResumeProcessesResponse - a model defined in Swagger is def __init__(self, request_id=None, return_code=None, return_message=None, total_rows=None, process_list=None):
+    'ResumeProcessesResponse - a model defined in Swagger'
+    self._request_id = None
+    self._return_code = None
+    self._return_message = None
+    self._total_rows = None
+    self._process_list = None
+    self.discriminator = None
+    if (request_id is not None):
+        self.request_id = request_id
+    if (return_code is not None):
+        self.return_code = return_code
+    if (return_message is not None):
+        self.return_message = return_message
+    if (total_rows is not None):
+        self.total_rows = total_rows
+    if (process_list is not None):
+        self.process_list = process_list"
+"code for Gets the request_id of this ResumeProcessesResponse.  # noqa: E501
+
+
+:return: The request_id of this ResumeProcessesResponse.  # noqa: E501
+:rtype: str is @property
+def request_id(self):
+    'Gets the request_id of this ResumeProcessesResponse.  # noqa: E501\n\n\n        :return: The request_id of this ResumeProcessesResponse.  # noqa: E501\n        :rtype: str\n        '
+    return self._request_id"
+"code for Sets the request_id of this ResumeProcessesResponse.
+
+
+:param request_id: The request_id of this ResumeProcessesResponse.  # noqa: E501
+:type: str is @request_id.setter
+def request_id(self, request_id):
+    'Sets the request_id of this ResumeProcessesResponse.\n\n\n        :param request_id: The request_id of this ResumeProcessesResponse.  # noqa: E501\n        :type: str\n        '
+    self._request_id = request_id"
+"code for Gets the return_code of this ResumeProcessesResponse.  # noqa: E501
+
+
+:return: The return_code of this ResumeProcessesResponse.  # noqa: E501
+:rtype: str is @property
+def return_code(self):
+    'Gets the return_code of this ResumeProcessesResponse.  # noqa: E501\n\n\n        :return: The return_code of this ResumeProcessesResponse.  # noqa: E501\n        :rtype: str\n        '
+    return self._return_code"
+"code for Sets the return_code of this ResumeProcessesResponse.
+
+
+:param return_code: The return_code of this ResumeProcessesResponse.  # noqa: E501
+:type: str is @return_code.setter
+def return_code(self, return_code):
+    'Sets the return_code of this ResumeProcessesResponse.\n\n\n        :param return_code: The return_code of this ResumeProcessesResponse.  # noqa: E501\n        :type: str\n        '
+    self._return_code = return_code"
+"code for Gets the return_message of this ResumeProcessesResponse.  # noqa: E501
+
+
+:return: The return_message of this ResumeProcessesResponse.  # noqa: E501
+:rtype: str is @property
+def return_message(self):
+    'Gets the return_message of this ResumeProcessesResponse.  # noqa: E501\n\n\n        :return: The return_message of this ResumeProcessesResponse.  # noqa: E501\n        :rtype: str\n        '
+    return self._return_message"
+"code for Sets the return_message of this ResumeProcessesResponse.
+
+
+:param return_message: The return_message of this ResumeProcessesResponse.  # noqa: E501
+:type: str is @return_message.setter
+def return_message(self, return_message):
+    'Sets the return_message of this ResumeProcessesResponse.\n\n\n        :param return_message: The return_message of this ResumeProcessesResponse.  # noqa: E501\n        :type: str\n        '
+    self._return_message = return_message"
+"code for Gets the total_rows of this ResumeProcessesResponse.  # noqa: E501
+
+
+:return: The total_rows of this ResumeProcessesResponse.  # noqa: E501
+:rtype: int is @property
+def total_rows(self):
+    'Gets the total_rows of this ResumeProcessesResponse.  # noqa: E501\n\n\n        :return: The total_rows of this ResumeProcessesResponse.  # noqa: E501\n        :rtype: int\n        '
+    return self._total_rows"
+"code for Sets the total_rows of this ResumeProcessesResponse.
+
+
+:param total_rows: The total_rows of this ResumeProcessesResponse.  # noqa: E501
+:type: int is @total_rows.setter
+def total_rows(self, total_rows):
+    'Sets the total_rows of this ResumeProcessesResponse.\n\n\n        :param total_rows: The total_rows of this ResumeProcessesResponse.  # noqa: E501\n        :type: int\n        '
+    self._total_rows = total_rows"
+"code for Gets the process_list of this ResumeProcessesResponse.  # noqa: E501
+
+
+:return: The process_list of this ResumeProcessesResponse.  # noqa: E501
+:rtype: list[Process] is @property
+def process_list(self):
+    'Gets the process_list of this ResumeProcessesResponse.  # noqa: E501\n\n\n        :return: The process_list of this ResumeProcessesResponse.  # noqa: E501\n        :rtype: list[Process]\n        '
+    return self._process_list"
+"code for Sets the process_list of this ResumeProcessesResponse.
+
+
+:param process_list: The process_list of this ResumeProcessesResponse.  # noqa: E501
+:type: list[Process] is @process_list.setter
+def process_list(self, process_list):
+    'Sets the process_list of this ResumeProcessesResponse.\n\n\n        :param process_list: The process_list of this ResumeProcessesResponse.  # noqa: E501\n        :type: list[Process]\n        '
+    self._process_list = process_list"
+"code for Returns the model properties as a dict is def to_dict(self):
+    'Returns the model properties as a dict'
+    result = {}
+    for (attr, _) in six.iteritems(self.swagger_types):
+        value = getattr(self, attr)
+        if isinstance(value, list):
+            result[attr] = list(map((lambda x: (x.to_dict() if hasattr(x, 'to_dict') else x)), value))
+        elif hasattr(value, 'to_dict'):
+            result[attr] = value.to_dict()
+        elif isinstance(value, dict):
+            result[attr] = dict(map((lambda item: ((item[0], item[1].to_dict()) if hasattr(item[1], 'to_dict') else item)), value.items()))
+        else:
+            result[attr] = value
+    return result"

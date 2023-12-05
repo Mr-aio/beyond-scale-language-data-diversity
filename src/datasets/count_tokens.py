@@ -4,7 +4,7 @@ import pandas as pd
 from transformers import AutoTokenizer
 
 # Load your CSV dataset
-csv_path = 'c4/c4-3-train-4k.csv'
+csv_path = 'humanevalpack/humanevalpack-train-4k.csv'
 df = pd.read_csv(csv_path)
 
 print('counting tokens...')

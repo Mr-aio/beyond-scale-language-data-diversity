@@ -10,6 +10,8 @@ Wikitext : 4186
 Proofnet : 4032
 LeanDojo4 : 4186
 ProofPile : 4096
+Docstring : 4116
+Humanevalpack : 4004
 
 
 Alignment Scores:
@@ -17,13 +19,24 @@ Alignment Scores:
 AF-AF : 0.9452813267707825
 AFSplit-AF: 0.739759624004364
 AF-Proofnet : 0.6674373149871826
+AF-Docstring : 0.6128289103507996
 AF-LeanDojo4 : 0.5514505505561829
 AF-C4 : 0.3249419331550598
 AF-Wikitext : 0.26609545946121216
 
+Docstring-Docstrong : 0.9609753489494324
+Docstring-Humanevalpack : 0.6194539666175842
+Docstring-AF : 0.6128289103507996
+Docstring-Proofnet : 0.5982948541641235
+Docstring-LeanDojo4 : 0.5592770576477051
+Docstring-C4 : 0.30464035272598267
+Docstring-Wikitext : 0.25793445110321045
 
 
-Perplexity Loss Scores 128 block_size, 4k tokens:
+
+
+
+Perplexity Loss Scores on AF Test 128 block_size, 4k tokens:
 -------------------------------------------------
 Standard GPT-2:
 Perplexity: 78.7413
@@ -52,6 +65,40 @@ Perplexity: 87.4829
 
 Wikitext Fine Tuned:
 Perplexity: 94.9470
+
+Docstring Fine Tuned:
+Perplexity: 75.4504
+
+
+Perplexity Loss Scores on Docstring Test 128 block_size, 4k tokens:
+-------------------------------------------------
+Standard GPT-2:
+Perplexity: 14.7787
+
+Docstring Fine Tuned:
+Perplexity: 11.3641
+
+AF Fine Tuned:
+Perplexity: 15.5574
+
+Proofnet Fine Tuned:
+Perplexity: 14.4508
+
+LeanDojo4 Fine Tuned:
+Perplexity: 14.0333
+
+C4 Fine Tuned:
+Perplexity: 15.0797
+
+Wikitext Fine Tuned:
+Perplexity: 15.4697
+
+Humanevalpack Fine Tuned:
+Perplexity: 12.7828
+
+
+
+
 
 
 ---------------------OLD TESTS: IGNORE--------------------

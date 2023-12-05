@@ -83,86 +83,6 @@ def alignment_task2vec(dataset_target,
     return results
 
 
-# def cross_test(dataset1, dataset2):
-#     """ Sanity check that data from the same place has low. Prev work showed 0.05 is lower bound.
-#     so hopefully around that number. """
-#     batch_size = 512
-#     remove_columns = []
-#     token = None
-
-#     # -- Get probe network
-#     from datasets import load_dataset
-#     import torch
-#     from transformers import GPT2Tokenizer, GPT2LMHeadModel
-
-#     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-#     if tokenizer.pad_token_id is None:
-#       tokenizer.pad_token = tokenizer.eos_token
-#     probe_network = GPT2LMHeadModel.from_pretrained("gpt2")
-#     device = torch.device(f"cuda:{0}" if torch.cuda.is_available() else "cpu")
-#     probe_network = probe_network.to(device)
-
-#     # -- Get batch from dataset
-#     from datasets import load_dataset
-#     # https://huggingface.co/datasets/brando/debug0_af/tree/main
-
-#     def preprocess_formalize(examples):
-#         print("EXAMPLES", examples.keys())
-#         if 'generated informal statement' in examples:
-#             informal_statement = examples["generated informal statement"]
-#             formal_statement = examples["formal statement"]
-#             text = f'informal statement {informal_statement} formal statement {formal_statement}'
-#         elif 'text' in examples:
-#             text = examples['text']
-#         elif 'nl_statement' in examples:
-#             informal_statement = examples['nl_statement']
-#             formal_statement = examples['nl_proof']
-#             text = f'informal statement {informal_statement} formal statement {formal_statement}'
-#         elif 'informal_stmt' in examples:
-#             text = f'informal statement {examples["informal_stmt"]} formal statement {examples["formal_statement"]}'
-#         else:
-#             print('Error, dataset columns messed up.')
-#         return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
-
-#     # -- Dataset 1
-#     path1, name1 = dataset1
-#     try:
-#         dataset1 = load_dataset(path1, name1, streaming=True, split="train", token=token).with_format(type="torch")
-#     except:
-#         dataset1 = load_dataset(path1, name1, streaming=True, split="validation", token=token).with_format(type="torch")
-#     batch1 = dataset1.take(batch_size)
-#     column_names1 = next(iter(batch1)).keys()
-#     print(f'{column_names1=}')
-#     # - Prepare functions to tokenize batch
-#     preprocess1 = preprocess_formalize
-#     remove_columns1 = column_names1  # remove everything except the tokenized fields in the dict
-#     print(f'{remove_columns1=}')
-#     def map1(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
-#         return batch1.map(preprocess1, batched=True, remove_columns=remove_columns1)
-    
-#     # Dataset 2
-#     path2, name2 = dataset2
-#     try:
-#         dataset2 = load_dataset(path2, name2, streaming=True, split="train", token=token).with_format(type="torch")
-#     except:
-#         dataset2 = load_dataset(path2, name2, streaming=True, split="validation", token=token).with_format(type="torch")
-#     batch2 = dataset2.take(batch_size)
-#     column_names2 = next(iter(batch2)).keys()
-#     print(f'{column_names2=}')
-#     # - Prepare functions to tokenize batch
-#     preprocess2 = preprocess_formalize
-#     remove_columns2 = column_names2  # remove everything except the tokenized fields in the dict
-#     print(f'{remove_columns2=}')
-#     def map2(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
-#         return batch2.map(preprocess2, batched=True, remove_columns=remove_columns2)
-
-#     # -- Compute alignment
-#     print('-- Compute alignment...')
-#     print(f'{batch_size=}')
-#     results = alignment_task2vec(dataset1, dataset2, map1, map2, probe_network, verbose=True, debug=False, batch_size=batch_size)
-#     print(f'{results=}')
-
-
 def cross_test(dataset1, dataset2):
     """ Sanity check that data from the same place has low. Prev work showed 0.05 is lower bound.
     so hopefully around that number. """
@@ -186,25 +106,7 @@ def cross_test(dataset1, dataset2):
     from datasets import load_dataset
     # https://huggingface.co/datasets/brando/debug0_af/tree/main
 
-    def preprocess_formalize1(examples):
-        print("EXAMPLES", examples.keys())
-        if 'generated informal statement' in examples:
-            informal_statement = examples["generated informal statement"]
-            formal_statement = examples["formal statement"]
-            text = f'{informal_statement}. {formal_statement}'
-        elif 'text' in examples:
-            text = examples['text']
-        elif 'nl_statement' in examples:
-            informal_statement = examples['nl_statement']
-            formal_statement = examples['nl_proof']
-            text = f'informal statement {informal_statement} formal statement {formal_statement}'
-        elif 'informal_stmt' in examples:
-            text = f'informal statement {examples["informal_stmt"]} formal statement {examples["formal_statement"]}'
-        else:
-            print('Error, dataset columns messed up.')
-        return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
-    
-    def preprocess_formalize2(examples):
+    def preprocess_formalize(examples):
         print("EXAMPLES", examples.keys())
         if 'generated informal statement' in examples:
             informal_statement = examples["generated informal statement"]
@@ -218,6 +120,10 @@ def cross_test(dataset1, dataset2):
             text = f'informal statement {informal_statement} formal statement {formal_statement}'
         elif 'informal_stmt' in examples:
             text = f'informal statement {examples["informal_stmt"]} formal statement {examples["formal_statement"]}'
+        elif 'body' in examples:
+            text = f'code for {examples["docstring"]} is {examples["body"]}'
+        elif 'canonical_solution' in examples:
+            text = f'code for {examples["docstring"]} is {examples["canonical_solution"]}'
         else:
             print('Error, dataset columns messed up.')
         return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
@@ -227,12 +133,12 @@ def cross_test(dataset1, dataset2):
     try:
         dataset1 = load_dataset(path1, name1, streaming=True, split="train", token=token).with_format(type="torch")
     except:
-        dataset1 = load_dataset(path1, name1, streaming=True, split="validation", token=token).with_format(type="torch")
+        dataset1 = load_dataset(path1, name1, streaming=True, split="test", token=token).with_format(type="torch")
     batch1 = dataset1.take(batch_size)
     column_names1 = next(iter(batch1)).keys()
     print(f'{column_names1=}')
     # - Prepare functions to tokenize batch
-    preprocess1 = preprocess_formalize1
+    preprocess1 = preprocess_formalize
     remove_columns1 = column_names1  # remove everything except the tokenized fields in the dict
     print(f'{remove_columns1=}')
     def map1(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
@@ -243,12 +149,12 @@ def cross_test(dataset1, dataset2):
     try:
         dataset2 = load_dataset(path2, name2, streaming=True, split="train", token=token).with_format(type="torch")
     except:
-        dataset2 = load_dataset(path2, name2, streaming=True, split="validation", token=token).with_format(type="torch")
+        dataset2 = load_dataset(path2, name2, streaming=True, split="test", token=token).with_format(type="torch")
     batch2 = dataset2.take(batch_size)
     column_names2 = next(iter(batch2)).keys()
     print(f'{column_names2=}')
     # - Prepare functions to tokenize batch
-    preprocess2 = preprocess_formalize2
+    preprocess2 = preprocess_formalize
     remove_columns2 = column_names2  # remove everything except the tokenized fields in the dict
     print(f'{remove_columns2=}')
     def map2(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
@@ -261,6 +167,106 @@ def cross_test(dataset1, dataset2):
     print(f'{results=}')
 
 
+# def cross_test(dataset1, dataset2):
+#     """ Sanity check that data from the same place has low. Prev work showed 0.05 is lower bound.
+#     so hopefully around that number. """
+#     batch_size = 512
+#     remove_columns = []
+#     token = None
+
+#     # -- Get probe network
+#     from datasets import load_dataset
+#     import torch
+#     from transformers import GPT2Tokenizer, GPT2LMHeadModel
+
+#     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+#     if tokenizer.pad_token_id is None:
+#       tokenizer.pad_token = tokenizer.eos_token
+#     probe_network = GPT2LMHeadModel.from_pretrained("gpt2")
+#     device = torch.device(f"cuda:{0}" if torch.cuda.is_available() else "cpu")
+#     probe_network = probe_network.to(device)
+
+#     # -- Get batch from dataset
+#     from datasets import load_dataset
+#     # https://huggingface.co/datasets/brando/debug0_af/tree/main
+
+#     def preprocess_formalize1(examples):
+#         print("EXAMPLES", examples.keys())
+#         if 'generated informal statement' in examples:
+#             informal_statement = examples["generated informal statement"]
+#             formal_statement = examples["formal statement"]
+#             text = f'{informal_statement}. {formal_statement}'
+#         elif 'text' in examples:
+#             text = examples['text']
+#         elif 'nl_statement' in examples:
+#             informal_statement = examples['nl_statement']
+#             formal_statement = examples['nl_proof']
+#             text = f'informal statement {informal_statement} formal statement {formal_statement}'
+#         elif 'informal_stmt' in examples:
+#             text = f'informal statement {examples["informal_stmt"]} formal statement {examples["formal_statement"]}'
+#         else:
+#             print('Error, dataset columns messed up.')
+#         return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
+    
+#     def preprocess_formalize2(examples):
+#         print("EXAMPLES", examples.keys())
+#         if 'generated informal statement' in examples:
+#             informal_statement = examples["generated informal statement"]
+#             formal_statement = examples["formal statement"]
+#             text = f'informal statement {informal_statement} formal statement {formal_statement}'
+#         elif 'text' in examples:
+#             text = examples['text']
+#         elif 'nl_statement' in examples:
+#             informal_statement = examples['nl_statement']
+#             formal_statement = examples['nl_proof']
+#             text = f'informal statement {informal_statement} formal statement {formal_statement}'
+#         elif 'informal_stmt' in examples:
+#             text = f'informal statement {examples["informal_stmt"]} formal statement {examples["formal_statement"]}'
+#         elif 'body' in examples:
+#             text = f'code for {examples["docstring"]} is {examples["body"]}'
+#         else:
+#             print('Error, dataset columns messed up.')
+#         return tokenizer(text, padding="max_length", max_length=128, truncation=True, return_tensors="pt")
+
+#     # -- Dataset 1
+#     path1, name1 = dataset1
+#     try:
+#         dataset1 = load_dataset(path1, name1, streaming=True, split="train", token=token).with_format(type="torch")
+#     except:
+#         dataset1 = load_dataset(path1, name1, streaming=True, split="validation", token=token).with_format(type="torch")
+#     batch1 = dataset1.take(batch_size)
+#     column_names1 = next(iter(batch1)).keys()
+#     print(f'{column_names1=}')
+#     # - Prepare functions to tokenize batch
+#     preprocess1 = preprocess_formalize1
+#     remove_columns1 = column_names1  # remove everything except the tokenized fields in the dict
+#     print(f'{remove_columns1=}')
+#     def map1(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
+#         return batch1.map(preprocess1, batched=True, remove_columns=remove_columns1)
+    
+#     # Dataset 2
+#     path2, name2 = dataset2
+#     try:
+#         dataset2 = load_dataset(path2, name2, streaming=True, split="train", token=token).with_format(type="torch")
+#     except:
+#         dataset2 = load_dataset(path2, name2, streaming=True, split="validation", token=token).with_format(type="torch")
+#     batch2 = dataset2.take(batch_size)
+#     column_names2 = next(iter(batch2)).keys()
+#     print(f'{column_names2=}')
+#     # - Prepare functions to tokenize batch
+#     preprocess2 = preprocess_formalize2
+#     remove_columns2 = column_names2  # remove everything except the tokenized fields in the dict
+#     print(f'{remove_columns2=}')
+#     def map2(batch):  # apply preprocess to batch to all examples in batch represented as a dataset
+#         return batch2.map(preprocess2, batched=True, remove_columns=remove_columns2)
+
+#     # -- Compute alignment
+#     print('-- Compute alignment...')
+#     print(f'{batch_size=}')
+#     results = alignment_task2vec(dataset1, dataset2, map1, map2, probe_network, verbose=True, debug=False, batch_size=batch_size)
+#     print(f'{results=}')
+
+
 if __name__ == '__main__':
     import time
     time_start = time.time()
@@ -270,8 +276,13 @@ if __name__ == '__main__':
     # path1, name1 = 'c4', 'en'
     # path1, name1 = 'hoskinson-center/minif2f-lean4', 'minif2f-lean4'
     # path1, name1 = 'hoskinson-center/proof-pile', 'default'
-    path1, name1 = 'brando/debug1_af', 'debug1_af'
-    path2, name2 = 'brando/debug1_af', 'debug1_af'
+    # path1, name1 = 'brando/debug1_af', 'debug1_af'
+    # path2, name2 = 'brando/debug1_af', 'debug1_af'
+    # path1, name1 = "wikitext", 'wikitext-2-raw-v1'
+    path1, name1 = 'bigcode/humanevalpack', 'python'
+
+    # path1, name1 = 'calum/the-stack-smol-python-docstrings', 'default'
+    path2, name2 = 'calum/the-stack-smol-python-docstrings', 'default'
 
 
     cross_test(dataset1=(path1, name1), dataset2=(path2, name2))
