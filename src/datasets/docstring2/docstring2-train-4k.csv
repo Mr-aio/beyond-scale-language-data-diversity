@@ -1,0 +1,52 @@
+text
+"code for This method will be called by the Worker to execute in a process.
+
+Override this method.
+Use __init__ to set any params needed for this call
+The messenger parameter is a Messenger instance
+
+Use messenger.debug/info/warning/error to send logs
+Use messenger.submit_tasks to submit sub tasks to the server
+Use messenger.query_results to query for results of the submitted sub tasks
+
+If you call predefined functions in this method, to catch possible `print` in the function, do:
+    predefined_function.__globals__[""print""] = messenger.print  # inject messenger.print as print
+See the RunFunction procedure as an example
+
+ATTENTION: do not use multiprocessing in this method.
+
+:param messenger: Messenger
+:return: The data if the task is successful. The data will be constructed to a successful
+    TaskResult by the TaskWorker.
+:raise raise TaskFailed exception with the failed data if the task is unsuccessful. e.g.
+    raise TaskFailed(""ID not found""). The ""ID not found"" will be constructed to a failed TaskResult.
+    Other exceptions will be caught by the Worker and be constructed to a unsuccessful TaskResult using
+    the Exception instance as data is def run(self, messenger):
+    '\n        This method will be called by the Worker to execute in a process.\n\n        Override this method.\n  n            the Exception instance as data\n        '
+    raise NotImplementedError"
+"code for Preparation of the communication (termination, etc...) is def comprep():
+    'Preparation of the communication (termination, etc...)'
+    print(f'VISA Manufacturer: {Instrument.visa_manufacturer}')
+    Instrument.visa_timeout = 5000
+    Instrument.opc_timeout = 5000
+    Instrument.instrument_status_checking = True
+    Instrument.clear_status()"
+"code for Close the VISA session is def close():
+    'Close the VISA session'
+    Instrument.close()"
+"code for Check communication with the device is def comcheck():
+    'Check communication with the device'
+    idnResponse = Instrument.query_str('*IDN?')
+    sleep(1)
+    print(('Hello, I am ' + idnResponse))"
+"code for Prepare measurement setup and define calkit is def meassetup():
+    'Prepare measurement setup and define calkit'
+    Instrument.write_str_with_opc('SYSTEM:DISPLAY:UPDATE ON')
+    Instrument.write_str_with_opc('SENSe1:FREQuency:Start 1e9')
+    Instrument.write_str_with_opc('SENSe1:FREQuency:Stop 2e9')
+    Instrument.write_str_with_opc('SENSe1:SWEep:POINts 501')
+    Instrument.write_str_with_opc('CALCulate1:PARameter:MEAsure ""Trc1"", ""S11""')
+    Instrument.write_str_with_opc('SENSe1:CORRection:CKIT:PC292:SELect ""ZN-Z229""')
+    Instrument.write_str_with_opc('SENSe1:CORRection:COLLect:CONN PC292MALE')
+    Instrument.write_str_with_opc('SENSe1:CORRection:COLLect:METHod:DEFine ""NewCal"", FOPort, 1')
+    Instrument.write_str_with_opc('SENSe:CORRection:COLLect:ACQuire:RSAVe:DEFault OFF')"

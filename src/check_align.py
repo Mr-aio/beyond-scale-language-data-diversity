@@ -279,7 +279,8 @@ if __name__ == '__main__':
     # path1, name1 = 'brando/debug1_af', 'debug1_af'
     # path2, name2 = 'brando/debug1_af', 'debug1_af'
     # path1, name1 = "wikitext", 'wikitext-2-raw-v1'
-    path1, name1 = 'bigcode/humanevalpack', 'python'
+    # path1, name1 = 'bigcode/humanevalpack', 'python'
+    path1, name1 = 'trelent/the-stack-dedup-python-docstrings-1.0-percent-unified', 'default'
 
     # path1, name1 = 'calum/the-stack-smol-python-docstrings', 'default'
     path2, name2 = 'calum/the-stack-smol-python-docstrings', 'default'

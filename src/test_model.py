@@ -16,7 +16,8 @@ import pandas as pd
 # model_path = "./tuned_models/c4_3_fine_tuned_gpt2_4k"
 # model_path = "./tuned_models/docstring_fine_tuned_gpt2_4k"
 # model_path = "./tuned_models/humanevalpack_fine_tuned_gpt2_4k"
-model_path = 'gpt2'
+model_path = "./tuned_models/docstring2_fine_tuned_gpt2_4k"
+# model_path = 'gpt2'
 
 
 tokenizer = GPT2Tokenizer.from_pretrained(model_path)

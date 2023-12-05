@@ -34,6 +34,9 @@ python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/docstring
 # For fine tuning gpt2 on 4k subset of humanevalpack dataset, block size 128
 python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/humanevalpack/humanevalpack-train-4k.csv --validation_file ./datasets/humanevalpack/humanevalpack-test-4k.csv --do_train --output_dir ./tuned_models/humanevalpack_fine_tuned_gpt2_4k --block_size 128
 
+# For fine tuning gpt2 on 4k subset of docstring2 dataset, block size 128
+python3 fine_tune.py --model_name_or_path gpt2 --train_file ./datasets/docstring2/docstring2-train-4k.csv --validation_file ./datasets/docstring2/docstring2-test-4k.csv --do_train --output_dir ./tuned_models/docstring2_fine_tuned_gpt2_4k --block_size 128
+
 
 
 
