@@ -1,0 +1,61 @@
+text
+"informal statement If $r$ is rational $(r \neq 0)$ and $x$ is irrational, prove that $rx$ is irrational. formal statement theorem exercise_1_1b
+(x : ℝ)
+(y : ℚ)
+(h : y ≠ 0)
+: ( irrational x ) -> irrational ( x * y ) :="
+"informal statement Let $E$ be a nonempty subset of an ordered set; suppose $\alpha$ is a lower bound of $E$ and $\beta$ is an upper bound of $E$. Prove that $\alpha \leq \beta$. formal statement theorem exercise_1_4
+(α : Type*) [partial_order α]
+(s : set α)
+(x y : α)
+(h₀ : set.nonempty s)
+(h₁ : x ∈ lower_bounds s)
+(h₂ : y ∈ upper_bounds s)
+: x ≤ y :="
+"informal statement Prove that no order can be defined in the complex field that turns it into an ordered field. formal statement theorem exercise_1_8 : ¬ ∃ (r : ℂ → ℂ → Prop), is_linear_order ℂ r :="
+"informal statement If $z_1, \ldots, z_n$ are complex, prove that $|z_1 + z_2 + \ldots + z_n| \leq |z_1| + |z_2| + \cdots + |z_n|$. formal statement theorem exercise_1_12 (n : ℕ) (f : ℕ → ℂ) : 
+  abs (∑ i in finset.range n, f i) ≤ ∑ i in finset.range n, abs (f i) :="
+"informal statement If $z$ is a complex number such that $|z|=1$, that is, such that $z \bar{z}=1$, compute $|1+z|^{2}+|1-z|^{2}$. formal statement theorem exercise_1_14
+  (z : ℂ) (h : abs z = 1)
+  : (abs (1 + z)) ^ 2 + (abs (1 - z)) ^ 2 = 4 :="
+"informal statement Prove that $|\mathbf{x}+\mathbf{y}|^{2}+|\mathbf{x}-\mathbf{y}|^{2}=2|\mathbf{x}|^{2}+2|\mathbf{y}|^{2}$ if $\mathbf{x} \in R^{k}$ and $\mathbf{y} \in R^{k}$. formal statement theorem exercise_1_17
+  (n : ℕ)
+  (x y : euclidean_space ℝ (fin n)) -- R^n
+  : ‖x + y‖^2 + ‖x - y‖^2 = 2*‖x‖^2 + 2*‖y‖^2 :="
+"informal statement If $k = 1$ and $\mathbf{x} \in R^{k}$, prove that there does not exist $\mathbf{y} \in R^{k}$ such that $\mathbf{y} \neq 0$ but $\mathbf{x} \cdot \mathbf{y}=0$ formal statement theorem exercise_1_18b
+  : ¬ ∀ (x : ℝ), ∃ (y : ℝ), y ≠ 0 ∧ x * y = 0 :="
+"informal statement If $A$ and $B$ are disjoint closed sets in some metric space $X$, prove that they are separated. formal statement theorem exercise_2_19a {X : Type*} [metric_space X]
+  (A B : set X) (hA : is_closed A) (hB : is_closed B) (hAB : disjoint A B) :
+  separated_nhds A B :="
+"informal statement Prove that every compact metric space $K$ has a countable base. formal statement theorem exercise_2_25 {K : Type*} [metric_space K] [compact_space K] :
+  ∃ (B : set (set K)), set.countable B ∧ is_topological_basis B :="
+"informal statement Suppose $E\subset\mathbb{R}^k$ is uncountable, and let $P$ be the set of condensation points of $E$. Prove that at most countably many points of $E$ are not in $P$. formal statement theorem exercise_2_27b (k : ℕ) (E P : set (euclidean_space ℝ (fin k)))
+  (hE : E.nonempty ∧ ¬ set.countable E)
+  (hP : P = {x | ∀ U ∈ 𝓝 x, (P ∩ E).nonempty ∧ ¬ set.countable (P ∩ E)}) :
+  set.countable (E \ P) :="
+"informal statement Prove that every open set in $\mathbb{R}$ is the union of an at most countable collection of disjoint segments. formal statement theorem exercise_2_29 (U : set ℝ) (hU : is_open U) :
+  ∃ (f : ℕ → set ℝ), (∀ n, ∃ a b : ℝ, f n = {x | a < x ∧ x < b}) ∧ (∀ n, f n ⊆ U) ∧
+  (∀ n m, n ≠ m → f n ∩ f m = ∅) ∧
+  U = ⋃ n, f n :="
+"informal statement Prove that $\lim_{n \rightarrow \infty}\sqrt{n^2 + n} -n = 1/2$. formal statement theorem exercise_3_2a
+  : tendsto (λ (n : ℝ), (sqrt (n^2 + n) - n)) at_top (𝓝 (1/2)) :="
+"informal statement For any two real sequences $\left\{a_{n}\right\},\left\{b_{n}\right\}$, prove that $\limsup _{n \rightarrow \infty}\left(a_{n}+b_{n}\right) \leq \limsup _{n \rightarrow \infty} a_{n}+\limsup _{n \rightarrow \infty} b_{n},$ provided the sum on the right is not of the form $\infty-\infty$. formal statement theorem exercise_3_5 -- TODO fix
+  (a b : ℕ → ℝ)
+  (h : limsup a + limsup b ≠ 0) :
+  limsup (λ n, a n + b n) ≤ limsup a + limsup b :="
+"informal statement Prove that the convergence of $\Sigma a_{n}$ implies the convergence of $\sum \frac{\sqrt{a_{n}}}{n}$ if $a_n\geq 0$. formal statement theorem exercise_3_7
+  (a : ℕ → ℝ)
+  (h : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), a i)) at_top (𝓝 y))) :
+  ∃ y, tendsto (λ n, (∑ i in (finset.range n), sqrt (a i) / n)) at_top (𝓝 y) :="
+"informal statement Prove that the Cauchy product of two absolutely convergent series converges absolutely. formal statement theorem exercise_3_13
+  (a b : ℕ → ℝ)
+  (ha : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), |a i|)) at_top (𝓝 y)))
+  (hb : ∃ y, (tendsto (λ n, (∑ i in (finset.range n), |b i|)) at_top (𝓝 y))) :
+  ∃ y, (tendsto (λ n, (∑ i in (finset.range n),
+  λ i, (∑ j in finset.range (i + 1), a j * b (i - j)))) at_top (𝓝 y)) :="
+"informal statement If $\left\{E_{n}\right\}$ is a sequence of closed nonempty and bounded sets in a complete metric space $X$, if $E_{n} \supset E_{n+1}$, and if $\lim _{n \rightarrow \infty} \operatorname{diam} E_{n}=0,$ then $\bigcap_{1}^{\infty} E_{n}$ consists of exactly one point. formal statement theorem exercise_3_21
+  {X : Type*} [metric_space X] [complete_space X]
+  (E : ℕ → set X)
+  (hE : ∀ n, E n ⊃ E (n + 1))
+  (hE' : tendsto (λ n, metric.diam (E n)) at_top (𝓝 0)) :
+  ∃ a, set.Inter E = {a} :="

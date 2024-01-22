@@ -1,0 +1,47 @@
+text
+"code for Perform calibration of open element is def calopen():
+    'Perform calibration of open element'
+    print()
+    print('Please connect OPEN to port 1 and confirm')
+    _ = input()
+    Instrument.write_str_with_opc('SENSe1:CORRection:COLLect:ACQuire:SELected OPEN, 1')"
+"code for Perform calibration with short element is def calshort():
+    'Perform calibration with short element'
+    print('Please connect SHORT to port 1 and confirm')
+    _ = input()
+    Instrument.write_str_with_opc('SENSe1:CORRection:COLLect:ACQuire:SELected SHORT, 1')"
+"code for Perform calibration with matched element is def calmatch():
+    'Perform calibration with matched element'
+    print('Please connect MATCH to port 1 and confirm')
+    _ = input()
+    Instrument.write_str_with_opc('SENSe1:CORRection:COLLect:ACQuire:SELected MATCH, 1')"
+"code for Apply calibration after it is finished and save the calfile is def applycal():
+    'Apply calibration after it is finished and save the calfile'
+    sleep(2)
+    Instrument.write_str_with_opc('SENSe1:CORRection:COLLect:SAVE:SELected')"
+"code for Save the calibration file to the pool is def savecal():
+    'Save the calibration file to the pool'
+    print('Now saving the calibration to the pool')
+    Instrument.write('MMEMory:STORE:CORRection 1,""P1_OSM_1-2GHz""')"
+"code for Reset the instrument, add two channels and load calibration file to each channel is def loadprep():
+    'Reset the instrument, add two channels and load calibration file to each channel'
+    print()
+    print('Resetting the instrument, assign three channels with adequate settings')
+    Instrument.write_str_with_opc('*RST')
+    Instrument.write_str_with_opc('SENSe1:FREQuency:Start 1e9')
+    Instrument.write_str_with_opc('SENSe1:FREQuency:Stop 2e9')
+    Instrument.write_str_with_opc('SENSe1:SWEep:POINts 501')
+    Instrument.write_str_with_opc(""CALCULATE2:PARAMETER:SDEFINE 'Trc2', 'S11'"")
+    Instrument.write_str_with_opc(""CALCULATE2:PARAMETER:SELECT 'Trc2'"")
+    Instrument.write_str_with_opc('DISPLAY:WINDOW2:STATE ON')
+    Instrument.write_str_with_opc(""DISPLAY:WINDOW2:TRACE1:FEED 'Trc2'"")
+    Instrument.write_str_with_opc('SENSe2:FREQuency:Start 1e9')
+    Instrument.write_str_with_opc('SENSe2:FREQuency:Stop 2e9')
+    Instrument.write_str_with_opc('SENSe2:SWEep:POINts 501')
+    Instrument.write_str_with_opc(""CALCULATE3:PARAMETER:SDEFINE 'Trc3', 'S11'"")
+    Instrument.write_str_with_opc(""CALCULATE3:PARAMETER:SELECT 'Trc3'"")
+    Instrument.write_str_with_opc('DISPLAY:WINDOW3:STATE ON')
+    Instrument.write_str_with_opc(""DISPLAY:WINDOW3:TRACE1:FEED 'Trc3'"")
+    Instrument.write_str_with_opc('SENSe3:FREQuency:Start 1e9')
+    Instrument.write_str_with_opc('SENSe3:FREQuency:Stop 2e9')
+    Instrument.write_str_with_opc('SENSe3:SWEep:POINts 501')"

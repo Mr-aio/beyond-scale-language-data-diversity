@@ -1,0 +1,61 @@
+text
+The list $0$ followed by the empty list is the empty list.
+"lemma cCons_0_Nil_eq [simp]: ""0 ## [] = []"""
+The list constructor $x \# y$ is the same as the list constructor $x # y$.
+"lemma cCons_Cons_eq [simp]: ""x ## y # ys = x # y # ys"""
+The concatenation of a list with a singleton list is the same as the concatenation of the list with the singleton list.
+"lemma cCons_append_Cons_eq [simp]: ""x ## xs @ y # ys = x # xs @ y # ys"""
+"If $x \neq 0$, then $x ## xs = x # xs$."
+"lemma cCons_not_0_eq [simp]: ""x \<noteq> 0 \<Longrightarrow> x ## xs = x # xs"""
+"If $x$ is not $0$, then the result of stripping $x$ from the list $x :: xs$ is $x$ followed by the result of stripping $x$ from $xs$."
+"lemma strip_while_not_0_Cons_eq [simp]: ""strip_while (\<lambda>x. x = 0) (x # xs) = x ## strip_while (\<lambda>x. x = 0) xs"""
+The tail of a list with a single element is the empty list.
+"lemma tl_cCons [simp]: ""tl (x ## xs) = xs"""
+Two polynomials are equal if and only if they have the same coefficients.
+"lemma poly_eq_iff: ""p = q \<longleftrightarrow> (\<forall>n. coeff p n = coeff q n)"""
+"If two polynomials have the same coefficients, then they are equal."
+"lemma poly_eqI: ""(\<And>n. coeff p n = coeff q n) \<Longrightarrow> p = q"""
+All but finitely many coefficients of a polynomial are zero.
+"lemma MOST_coeff_eq_0: ""\<forall>\<^sub>\<infinity> n. coeff p n = 0"""
+"If the degree of a polynomial $p$ is less than $n$, then the coefficient of $x^n$ in $p$ is zero."
+"lemma coeff_eq_0: assumes ""degree p < n"" shows ""coeff p n = 0"""
+"If the coefficient of $x^n$ in a polynomial $p$ is nonzero, then $n$ is less than or equal to the degree of $p$."
+"lemma le_degree: ""coeff p n \<noteq> 0 \<Longrightarrow> n \<le> degree p"""
+"If the coefficients of a polynomial $p$ are zero for all indices greater than $n$, then the degree of $p$ is at most $n$."
+"lemma degree_le: ""\<forall>i>n. coeff p i = 0 \<Longrightarrow> degree p \<le> n"""
+"If $n$ is less than the degree of a polynomial $p$, then there exists an index $i > n$ such that the coefficient of $x^i$ in $p$ is nonzero."
+"lemma less_degree_imp: ""n < degree p \<Longrightarrow> \<exists>i>n. coeff p i \<noteq> 0"""
+The coefficient of $x^n$ in the polynomial $0$ is $0$.
+"lemma coeff_0 [simp]: ""coeff 0 n = 0"""
+The degree of the zero polynomial is zero.
+"lemma degree_0 [simp]: ""degree 0 = 0"""
+"If a polynomial is nonzero, then its leading coefficient is nonzero."
+"lemma leading_coeff_neq_0: assumes ""p \<noteq> 0"" shows ""coeff p (degree p) \<noteq> 0"""
+The leading coefficient of a polynomial is zero if and only if the polynomial is zero.
+"lemma leading_coeff_0_iff [simp]: ""coeff p (degree p) = 0 \<longleftrightarrow> p = 0"""
+"If the coefficient of the $n$th power of a polynomial $p$ is zero, then either $p$ is the zero polynomial or the degree of $p$ is less than $n$."
+"lemma eq_zero_or_degree_less: assumes ""degree p \<le> n"" and ""coeff p n = 0"" shows ""p = 0 \<or> degree p < n"""
+"If the coefficient of $x^d$ in a polynomial $p$ is zero, and $d$ is at least the degree of $p$, then the degree of $p$ is at most $d-1$."
+"lemma coeff_0_degree_minus_1: ""coeff rrr dr = 0 \<Longrightarrow> degree rrr \<le> dr \<Longrightarrow> degree rrr \<le> dr - 1"""
+The coefficient of a polynomial is equal to the coefficient of its representation.
+lemmas coeff_pCons = pCons.rep_eq
+The coefficient of the constant term of a polynomial is the constant term.
+"lemma coeff_pCons_0 [simp]: ""coeff (pCons a p) 0 = a"""
+The coefficient of $x^n$ in $a + x p$ is the coefficient of $x^{n-1}$ in $p$.
+"lemma coeff_pCons_Suc [simp]: ""coeff (pCons a p) (Suc n) = coeff p n"""
+The degree of a polynomial with a leading coefficient is at most one more than the degree of the polynomial without the leading coefficient.
+"lemma degree_pCons_le: ""degree (pCons a p) \<le> Suc (degree p)"""
+"If $p$ is a nonzero polynomial, then the degree of $p$ is one more than the degree of $p$ with a leading coefficient of $a$."
+"lemma degree_pCons_eq: ""p \<noteq> 0 \<Longrightarrow> degree (pCons a p) = Suc (degree p)"""
+The degree of a polynomial of the form $a + 0x$ is $0$.
+"lemma degree_pCons_0: ""degree (pCons a 0) = 0"""
+The degree of a polynomial with a nonzero constant term is one more than the degree of the polynomial without the constant term.
+"lemma degree_pCons_eq_if [simp]: ""degree (pCons a p) = (if p = 0 then 0 else Suc (degree p))"""
+The polynomial $0x^0$ is equal to $0$.
+"lemma pCons_0_0 [simp]: ""pCons 0 0 = 0"""
+Two polynomials are equal if and only if their leading coefficients are equal and their tails are equal.
+"lemma pCons_eq_iff [simp]: ""pCons a p = pCons b q \<longleftrightarrow> a = b \<and> p = q"""
+A polynomial is zero if and only if its leading coefficient is zero and its tail is zero.
+"lemma pCons_eq_0_iff [simp]: ""pCons a p = 0 \<longleftrightarrow> a = 0 \<and> p = 0"""
+"Every polynomial can be written as $a + bx + cx^2 + \cdots$, where $a, b, c, \ldots$ are coefficients."
+"lemma pCons_cases [cases type: poly]: obtains (pCons) a q where ""p = pCons a q"""

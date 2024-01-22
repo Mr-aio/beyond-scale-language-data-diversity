@@ -1,8 +1,129 @@
+Datasets and sizes:
+-------------------------------------------------
+AF : 4092
+AF-Split : 3960 (For experiment only)
+C4 Subset Original : 4096
+C4 Subset 1 : 4032
+C4 Subset 2 : 4080
+C4 Subset 3 : 3990
+Wikitext : 4186
+Proofnet : 4032
+LeanDojo4 : 4186
+ProofPile : 4096
+Docstring : 4116
+Humanevalpack : 4004
+Docstring2 : 3790
+
+
 Alignment Scores:
-------------------------
+-------------------------------------------------
 AF-AF : 0.9452813267707825
+AFSplit-AF: 0.739759624004364
+AF-Proofnet : 0.6674373149871826
+AF-Docstring : 0.6128289103507996
+AF-LeanDojo4 : 0.5514505505561829
 AF-C4 : 0.3249419331550598
 AF-Wikitext : 0.26609545946121216
+
+Docstring-Docstring : 0.9609753489494324
+Docstring-Docstring2 : 0.6150134205818176
+Docstring-Humanevalpack : 0.6194539666175842
+Docstring-AF : 0.6128289103507996
+Docstring-Proofnet : 0.5982948541641235
+Docstring-LeanDojo4 : 0.5592770576477051
+Docstring-C4 : 0.30464035272598267
+Docstring-Wikitext : 0.25793445110321045
+
+
+
+
+
+
+Perplexity Loss Scores on AF Test 128 block_size, 4k tokens:
+-------------------------------------------------
+Standard GPT-2:
+Perplexity: 78.7413
+
+AF Fine Tuned:
+Perplexity: 41.8261
+
+AF Split Fine Tuned:
+Perplexity: 57.8004
+
+Proofnet Fine Tuned:
+Perplexity: 67.8906
+
+LeanDojo4 Fine Tuned:
+Perplexity: 71.8377
+
+C4 Fine Tuned:
+Main subset:
+Perplexity: 87.4636
+Subset 1: 
+Perplexity: 84.4889
+Subset 2:
+Perplexity: 85.9207
+Subset 3:
+Perplexity: 87.4829
+
+Wikitext Fine Tuned:
+Perplexity: 94.9470
+
+Docstring Fine Tuned:
+Perplexity: 75.4504
+
+
+Perplexity Loss Scores on Docstring Test 128 block_size, 4k tokens:
+-------------------------------------------------
+Standard GPT-2:
+Perplexity: 14.7787
+
+Docstring Fine Tuned:
+Perplexity: 11.3641
+
+AF Fine Tuned:
+Perplexity: 15.5574
+
+Proofnet Fine Tuned:
+PPL : 14.45
+
+LeanDojo4 Fine Tuned:
+PPL : 14.03
+
+C4 Fine Tuned:
+Perplexity: 15.0797
+
+Wikitext Fine Tuned:
+Perplexity: 15.4697
+
+Humanevalpack Fine Tuned:
+Perplexity: 12.7828
+
+Docstring2 Fine Tuned:
+Perplexity: 12.4401
+
+
+
+
+
+
+
+
+
+---------------------OLD TESTS: IGNORE--------------------
+Perplexity Loss Scores 128 block_size:
+--------------------------------------
+Perplexity loss on standard GPT-2:
+Perplexity: 78.7413
+
+Perplexity Loss on AF Fine Tuned GPT-2:
+Perplexity: 53.7818
+
+Perplexity loss on C4 Fine Tuned GPT-2:
+Perplexity: 85.8258
+
+Perplexity loss on Wikitest Fine Tuned GPT-2:
+Perplexity: 94.1667
 
 
 Perplexity Loss Scores Random block_size:
@@ -18,18 +139,3 @@ Perplexity: 83.0965
 
 Perplexity loss on Wikitest Fine Tuned GPT-2:
 Perplexity: 88.0815
-
-
-Perplexity Loss Scores 128 block_size:
---------------------------------------
-Perplexity loss on standard GPT-2:
-Perplexity: 78.7413
-
-Perplexity Loss on AF Fine Tuned GPT-2:
-Perplexity: 53.7818
-
-Perplexity loss on C4 Fine Tuned GPT-2:
-Perplexity: 85.8258
-
-Perplexity loss on Wikitest Fine Tuned GPT-2:
-Perplexity: 94.1667

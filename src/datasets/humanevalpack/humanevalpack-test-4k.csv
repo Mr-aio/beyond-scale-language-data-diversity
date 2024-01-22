@@ -1,0 +1,150 @@
+text
+"Code for Return list of all prefixes from shortest to longest of the input string
+>>> all_prefixes('abc')
+['a', 'ab', 'abc'] is     result = []
+
+    for i in range(len(string)):
+        result.append(string[:i+1])
+    return result
+"
+"Code for Return a string containing space-delimited numbers starting from 0 upto n inclusive.
+>>> string_sequence(0)
+'0'
+>>> string_sequence(5)
+'0 1 2 3 4 5' is     return ' '.join([str(x) for x in range(n + 1)])
+"
+"Code for Given a string, find out how many distinct characters (regardless of case) does it consist of
+>>> count_distinct_characters('xyzXYZ')
+3
+>>> count_distinct_characters('Jerry')
+4 is     return len(set(string.lower()))
+"
+"Code for Input to this function is a string representing musical notes in a special ASCII format.
+Your task is to parse this string and return list of integers corresponding to how many beats does each
+not last.
+Here is a legend:
+'o' - whole note, lasts four beats
+'o|' - half note, lasts two beats
+'.|' - quater note, lasts one beat
+>>> parse_music('o o| .| o| o| .| .| .| .| o o')
+[4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4] is     note_map = {'o': 4, 'o|': 2, '.|': 1}
+    return [note_map[x] for x in music_string.split(' ') if x]
+"
+"Code for Find how many times a given substring can be found in the original string. Count overlaping cases.
+>>> how_many_times('', 'a')
+0
+>>> how_many_times('aaa', 'a')
+3
+>>> how_many_times('aaaa', 'aa')
+3 is     times = 0
+
+    for i in range(len(string) - len(substring) + 1):
+        if string[i:i+len(substring)] == substring:
+            times += 1
+
+    return times
+"
+"Code for Input is a space-delimited string of numberals from 'zero' to 'nine'.
+Valid choices are 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' and 'nine'.
+Return the string with numbers sorted from smallest to largest
+>>> sort_numbers('three one five')
+'one three five' is     value_map = {
+        'zero': 0,
+        'one': 1,
+        'two': 2,
+        'three': 3,
+        'four': 4,
+        'five': 5,
+        'six': 6,
+        'seven': 7,
+        'eight': 8,
+        'nine': 9
+    }
+    return ' '.join(sorted([x for x in numbers.split(' ') if x], key=lambda x: value_map[x]))
+"
+"Code for From a supplied list of numbers (of length at least two) select and return two that are the closest to each
+other and return them in order (smaller number, larger number).
+>>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])
+(2.0, 2.2)
+>>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])
+(2.0, 2.0) is     closest_pair = None
+    distance = None
+
+    for idx, elem in enumerate(numbers):
+        for idx2, elem2 in enumerate(numbers):
+            if idx != idx2:
+                if distance is None:
+                    distance = abs(elem - elem2)
+                    closest_pair = tuple(sorted([elem, elem2]))
+                else:
+                    new_distance = abs(elem - elem2)
+                    if new_distance < distance:
+                        distance = new_distance
+                        closest_pair = tuple(sorted([elem, elem2]))
+
+    return closest_pair
+"
+"Code for Given list of numbers (of at least two elements), apply a linear transform to that list,
+such that the smallest number will become 0 and the largest will become 1
+>>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])
+[0.0, 0.25, 0.5, 0.75, 1.0] is     min_number = min(numbers)
+    max_number = max(numbers)
+    return [(x - min_number) / (max_number - min_number) for x in numbers]
+"
+"Code for Filter given list of any python values only for integers
+>>> filter_integers(['a', 3.14, 5])
+[5]
+>>> filter_integers([1, 2, 3, 'abc', {}, []])
+[1, 2, 3] is     return [x for x in values if isinstance(x, int)]
+"
+"Code for Return length of given string
+>>> strlen('')
+0
+>>> strlen('abc')
+3 is     return len(string)
+"
+"Code for For a given number n, find the largest number that divides n evenly, smaller than n
+>>> largest_divisor(15)
+5 is     for i in reversed(range(n)):
+        if n % i == 0:
+            return i
+"
+"Code for Return list of prime factors of given integer in the order from smallest to largest.
+Each of the factors should be listed number of times corresponding to how many times it appeares in factorization.
+Input number should be equal to the product of all factors
+>>> factorize(8)
+[2, 2, 2]
+>>> factorize(25)
+[5, 5]
+>>> factorize(70)
+[2, 5, 7] is     import math
+    fact = []
+    i = 2
+    while i <= int(math.sqrt(n) + 1):
+        if n % i == 0:
+            fact.append(i)
+            n //= i
+        else:
+            i += 1
+
+    if n > 1:
+        fact.append(n)
+    return fact
+"
+"Code for From a list of integers, remove all elements that occur more than once.
+Keep order of elements left the same as in the input.
+>>> remove_duplicates([1, 2, 3, 2, 4])
+[1, 3, 4] is     import collections
+    c = collections.Counter(numbers)
+    return [n for n in numbers if c[n] <= 1]
+"
+"Code for For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
+>>> flip_case('Hello')
+'hELLO' is     return string.swapcase()
+"
+"Code for Concatenate list of strings into a single string
+>>> concatenate([])
+''
+>>> concatenate(['a', 'b', 'c'])
+'abc' is     return ''.join(strings)
+"
